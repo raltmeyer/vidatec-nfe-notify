@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myevents
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: myevents
+        resources:
+          limits:
+            cpu: "200m" 
+            memory: "256Mi" 
+          requests:
+            cpu: "100m" 
+            memory: "128Mi"

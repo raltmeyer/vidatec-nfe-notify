@@ -1,0 +1,27 @@
+# define os recursos a serem usados no ambiente de sandbox
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+namespace: myevents-sandbox
+nameSuffix: -sandbox
+
+labels:
+- includeSelectors: true
+  pairs:
+    app: myEvents
+
+patches:
+- path: deployment.yaml
+
+secretGenerator:
+  - name: myevents-secret
+    literals:
+      - database_url=${DATABASE_URL}
+      - database_user=${DATABASE_USER}
+      - database_password=${DATABASE_PASSWORD}
+    type: Opaque
+

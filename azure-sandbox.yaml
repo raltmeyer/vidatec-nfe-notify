@@ -1,0 +1,172 @@
+# Pipeline ADO para deploy de aplicação MyEvents em ambiente de sandbox
+
+trigger:
+- sandbox
+
+pool:
+  name: 'Default'
+
+variables:
+  - group: myevents_configs_sandbox
+  - group: pg_credentials
+  - group: mikrotik_main_credentials
+  - group: ssh-main-credentials
+  - name: system.debug
+    value: false
+  - name: pg_database
+    value: 'tf_dns_myevents' 
+
+  - name: system.debug
+    value: false
+  - name: environment
+    value: 'sandbox'
+
+  - name: image_plataform
+    value: 'linux/amd64'
+  - name: image_name
+    value: 'myevents-sandbox'
+  - name: image_version
+    value: '1.0'
+
+
+stages:
+
+- stage: Configure_DNS
+  jobs:
+  - job: Update_DNS
+    steps:
+    - script: |
+        echo "Terraform init ..."
+        terraform init --upgrade
+        echo "Terraform validate ..."
+        terraform validate
+        echo "Terraform plan ..."
+        terraform plan
+      displayName: 'Preparing Terraform'
+      workingDirectory: 'pipeline/terraform_dns'
+      env:
+        TF_LOG: DEBUG
+        PGHOST: $(PGHOST)
+        PGPASSWORD: $(PGPASSWORD)
+        PGUSER: $(PGUSER)
+        PGDATABASE: $(pg_database)
+        TF_VAR_mikrotik_host: $(mikrotik_host)
+        TF_VAR_mikrotik_password: $(mikrotik_password)
+        TF_VAR_mikrotik_username: $(mikrotik_username)
+    - script: |
+        terraform apply -auto-approve -parallelism=1
+      displayName: 'Terraform Apply'
+      workingDirectory: 'pipeline/terraform_dns'
+      condition: succeeded()
+      env:
+        #TF_LOG: DEBUG
+        PGHOST: $(PGHOST)
+        PGPASSWORD: $(PGPASSWORD)
+        PGUSER: $(PGUSER)
+        PGDATABASE: $(pg_database)
+        TF_VAR_mikrotik_host: $(mikrotik_host)
+        TF_VAR_mikrotik_password: $(mikrotik_password)
+        TF_VAR_mikrotik_username: $(mikrotik_username)
+
+
+- stage: Maven
+  jobs:
+  - job: Maven_Build
+    steps:
+    - script: |
+        mvn clean
+      displayName: 'Maven Clean'
+    - script: |
+        mvn install
+      displayName: 'Maven Install'
+    - publish: target/MyEvents.jar
+      artifact: myevents-jar
+
+
+- stage: Docker_Build
+  dependsOn: Maven
+  jobs:
+  - job: Docker_Build
+    steps:
+    - download: current
+      artifact: myevents-jar
+    - script: |
+        echo "Copying myevents.jar to pipeline/docker folder..."
+        cp $(Pipeline.Workspace)/myevents-jar/MyEvents.jar pipeline/docker/MyEvents.jar
+      displayName: 'Copy MyEvents.jar'
+    - script: |
+        echo "Building Docker image..."
+        echo docker buildx build --platform ${image_plataform} -t ${image_name}:${image_version} pipeline/docker
+        docker buildx build --platform ${image_plataform} -t ${image_name}:${image_version} pipeline/docker
+      displayName: 'Build Docker Image'
+      env:
+        DOCKER_BUILDKIT: 1
+        image_plataform: $(image_plataform)
+        image_name: $(image_name)
+        image_version: $(image_version)
+
+
+- stage: Promote_Image
+  dependsOn: Docker_Build
+  jobs:
+  - job: Upload_Image_to_K8s
+    steps:
+    - task: DownloadSecureFile@1
+      inputs:
+        secureFile: 'altmeyer.key'
+      displayName: 'Download ssh key'
+    - script: |
+        chmod 600 ${ssh_key_file_path}
+        export KUBE_NODE="kube-${environment}.altmeyer.local"
+        bash pipeline/scripts/copy_image_to_k8s.sh ${image_name} ${image_version} ${ssh_username} ${KUBE_NODE} ${ssh_key_file_path} ${agent_temp_directory}
+      displayName: 'Export Docker Image'
+      env:
+        image_plataform: $(image_plataform)
+        image_name: $(image_name)
+        image_version: $(image_version)
+        ssh_username: $(ssh_username)
+        ssh_key_file_path: "$(Agent.TempDirectory)/altmeyer.key"
+        agent_temp_directory: $(Agent.TempDirectory)
+        environment: $(environment)
+
+
+- stage: K8s_Deployment
+  dependsOn: Promote_Image
+  jobs:
+  - job: K8s_Deployment
+    steps:
+    - task: DownloadSecureFile@1
+      inputs:
+        secureFile: 'kube-sandbox.yaml'
+      displayName: 'Download kubeconfg Files'
+    - script: |
+        echo "Apply variables to Kustomize ..."
+        envsubst < overlays/${environment}/kustomization.yaml.in > overlays/${environment}/kustomization.yaml
+        echo "Kustomize init ..."
+        kustomize build overlays/$(environment)
+        echo "Kustomize apply ..."
+        kubectl apply -k overlays/$(environment)
+      displayName: 'Kustomize Apply'
+      workingDirectory: 'pipeline/kustomize'
+      env:
+        KUBECONFIG: "$(Agent.TempDirectory)/kube-sandbox.yaml"    
+        DATABASE_URL: "jdbc:mysql://$(DATABASE_HOST)/$(DATABASE_DB)"
+        DATABASE_PASSWORD: $(DATABASE_PASSWORD)
+        DATABASE_USER: $(DATABASE_USER)
+        environment: $(environment)
+
+
+- stage: CleanUp
+  dependsOn: K8s_Deployment
+  jobs:
+  - job: CleanUp
+    steps:
+    - script: |
+        docker system df
+        echo "Cleaning up Docker system ..."
+        docker system prune -f
+        docker system df
+        rm -f $(Pipeline.Workspace)/myevents-jar/MyEvents.jar
+      displayName: 'Clean Docker System'
+
+
