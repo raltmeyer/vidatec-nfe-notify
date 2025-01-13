@@ -19,8 +19,6 @@ mssql_db   = os.getenv('mssql_db')
 mssql_user = os.getenv('mssql_user')
 mssql_pass = os.getenv('mssql_pass')
 
-
-
 # MySQL tables definition
 TABLES = {}
 
@@ -74,8 +72,6 @@ mysql_conn = mysql.connector.connect(
 mysql_cursor = mysql_conn.cursor()
 
 
-
-
 # create tables if not exists 
 for table_name in TABLES:
     table_description = TABLES[table_name]
@@ -102,7 +98,6 @@ mysql_conn.commit()
 
 
 print ("Extract data from Sapiens DB")
-
 with pytds.connect(mssql_host, 
                     mssql_db, 
                     mssql_user, 
@@ -185,4 +180,3 @@ mysql_cursor.close()
 mysql_conn.close()
 mssql_conn.close()
 print ("Database import finished")
-
