@@ -77,25 +77,28 @@ kubectl apply -k overlays/sandbox
 ```
 
 
-## Permissoes mysql
+## Setup do mysql
 
 Para reproduzir as permissoes no servidor mysql
 
 Sandbox
 ```
-CREATE USER 'myevents_sandbox'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON myevents_sandbox.* TO 'myevents_sandbox'@'%' WITH GRANT OPTION;
+CREATE DATABASE vida_nfe_nofity_sandbox;
+CREATE USER 'vida_nfe_nofity_sandbox'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON vida_nfe_nofity_sandbox.* TO 'vida_nfe_nofity_sandbox'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
-
-SHOW GRANTS FOR 'myevents_sandbox'@'%'
-ALTER USER 'myevents_sandbox'@'%' IDENTIFIED BY 'password';
 ```
 
 Production
 ```
-CREATE USER 'myevents_production'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON myevents_production.* TO 'myevents_production'@'%' WITH GRANT OPTION;
+CREATE DATABASE vida_nfe_nofity_production;
+CREATE USER 'vida_nfe_nofity_production'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON vida_nfe_nofity_production.* TO 'vida_nfe_nofity_production'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+```
 
-ALTER USER 'myevents_production'@'%' IDENTIFIED BY 'password';
+Change password
+```
+SHOW GRANTS FOR 'vida_nfe_nofity_sandbox'@'%'
+ALTER USER 'vida_nfe_nofity_sandbox'@'%' IDENTIFIED BY 'password';
 ```
