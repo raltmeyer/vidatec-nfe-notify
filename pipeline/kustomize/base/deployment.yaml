@@ -13,7 +13,7 @@ spec:
         app: web
     spec:
       containers:
-      - name: nfe-nofity
+      - name: vidatec-sandbox-nfe-nofity
         image: vidatec_nfe_notify_import
         imagePullPolicy: Always
         resources:

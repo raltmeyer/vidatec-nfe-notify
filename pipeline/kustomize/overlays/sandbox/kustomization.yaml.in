@@ -19,8 +19,8 @@ labels:
   pairs:
     app: nfe-nofity
 
-patches:
-- path: deployment.yaml
+#patches:
+#- path: deployment.yaml
 
 secretGenerator:
   - name: nfe-nofity-secret
