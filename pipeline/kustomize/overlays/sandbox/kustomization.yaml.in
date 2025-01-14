@@ -9,6 +9,11 @@ resources:
 namespace: nfe-nofity-sandbox
 nameSuffix: -sandbox
 
+images:
+  - name: vidatec_nfe_notify_import
+    newName: vidatec_nfe_notify_import
+    newTag: ${image_version}
+
 labels:
 - includeSelectors: true
   pairs:

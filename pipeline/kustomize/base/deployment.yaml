@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nfe-nofity
-        image: vidatec_nfe_notify_import:latest
+        image: vidatec_nfe_notify_import
         imagePullPolicy: Always
         resources:
           limits:

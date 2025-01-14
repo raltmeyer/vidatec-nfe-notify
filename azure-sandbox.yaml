@@ -88,8 +88,8 @@ stages:
   - job: Upload_Image_to_Registry
     steps:
     - script: |
-        docker tag vidatec_nfe_notify_import registry.altmeyer.local:5000/vidatec_nfe_notify_import:latest
-        docker push registry.altmeyer.local:5000/vidatec_nfe_notify_import:latest
+        docker tag vidatec_nfe_notify_import registry.altmeyer.local:5000/vidatec_nfe_notify_import:${image_version}
+        docker push registry.altmeyer.local:5000/vidatec_nfe_notify_import:${image_version}
       displayName: 'Export Docker Image'
       env:
         image_plataform: $(image_plataform)
@@ -118,6 +118,7 @@ stages:
       workingDirectory: 'pipeline/kustomize'
       env:
         KUBECONFIG: "$(Agent.TempDirectory)/kube-sandbox.yaml"    
+        image_version: $(image_version)
         MYSQL_HOST: $(MYSQL_HOST)
         MYSQL_DB: $(MYSQL_DB)
         MYSQL_USER: $(MYSQL_USER)
