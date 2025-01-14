@@ -56,9 +56,9 @@ Get a generated kustomize.yaml from the ADO Agent server
 cd pipeline/kustomize
 kustomize build overlays/sandbox 
 kustomize build overlays/production
-Exemplo de aplicar manualmente no cluster
 ```
 
+Exemplo de aplicar manualmente no cluster
 ```
 kubectx <sandbox>
 cd pipeline/kustomize
