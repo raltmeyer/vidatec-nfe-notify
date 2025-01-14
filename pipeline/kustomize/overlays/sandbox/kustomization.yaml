@@ -12,7 +12,7 @@ nameSuffix: -sandbox
 images:
   - name: vidatec_nfe_notify_import
     newName: vidatec_nfe_notify_import
-    newTag: '${image_version}'
+    newTag: 1.0
 
 labels:
 - includeSelectors: true
@@ -25,13 +25,12 @@ patches:
 secretGenerator:
   - name: nfe-nofity-secret
     literals:
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_DB  =${MYSQL_DB}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASS=${MYSQL_PASS}
-      - MSSQL_HOST=${MSSQL_HOST}
-      - MSSQL_DB  =${MSSQL_DB}
-      - MSSQL_USER=${MSSQL_USER}
-      - MSSQL_PASS=${MSSQL_PASS}
+      - MYSQL_HOST=mysql.altmeyer.local
+      - MYSQL_DB  =vida_nfe_nofity_sandbox
+      - MYSQL_USER=vida_nfe_nofity_sandbox
+      - MYSQL_PASS=YWRN9yuDlG
+      - MSSQL_HOST=10.10.1.23
+      - MSSQL_DB  =Sapiens_Prod
+      - MSSQL_USER=sa
+      - MSSQL_PASS=L0stV4cat10n
     type: Opaque
-

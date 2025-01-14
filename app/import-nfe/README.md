@@ -47,3 +47,20 @@ docker run -it --rm \
 docker tag vidatec_nfe_notify_import registry.altmeyer.local:5000/vidatec_nfe_notify_import
 docker push registry.altmeyer.local:5000/vidatec_nfe_notify_import
 ```
+
+## Testar kustomize
+Para testar o kustomize localmente:
+
+Get a generated kustomize.yaml from the ADO Agent server
+```
+cd pipeline/kustomize
+kustomize build overlays/sandbox 
+kustomize build overlays/production
+Exemplo de aplicar manualmente no cluster
+```
+
+```
+kubectx <sandbox>
+cd pipeline/kustomize
+kubectl apply -k overlays/sandbox
+```
