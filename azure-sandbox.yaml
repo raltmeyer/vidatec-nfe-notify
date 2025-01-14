@@ -88,7 +88,7 @@ stages:
   - job: Upload_Image_to_Registry
     steps:
     - script: |
-        docker tag vidatec_nfe_notify_import registry.altmeyer.local:5000/vidatec_nfe_notify_import:${image_version}
+        docker tag vidatec_nfe_notify_import:${image_version} registry.altmeyer.local:5000/vidatec_nfe_notify_import:${image_version}
         docker push registry.altmeyer.local:5000/vidatec_nfe_notify_import:${image_version}
       displayName: 'Export Docker Image'
       env:
