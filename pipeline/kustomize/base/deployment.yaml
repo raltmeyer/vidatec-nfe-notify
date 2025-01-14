@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myevents
+  name: nfe-nofity
 spec:
   replicas: 1
   selector:
@@ -13,9 +13,9 @@ spec:
         app: web
     spec:
       containers:
-      - name: myevents
-        image: myevents-sandbox:1.0
-        imagePullPolicy: Never
+      - name: nfe-nofity
+        image: vidatec_nfe_notify_import:latest
+        imagePullPolicy: Always
         resources:
           limits:
             cpu: "100m" 
@@ -24,21 +24,46 @@ spec:
             cpu: "100m" 
             memory: "128Mi"
         ports:
-        - containerPort: 8080
+        - containerPort: 6236
         env:
-        - name: DATABASE_URL
+        - name: MYSQL_HOST
           valueFrom:
             secretKeyRef:
-              name: myevents-secret
-              key: database_url
-        - name: DATABASE_USER
+              name: nfe-nofity-secret
+              key: MYSQL_HOST
+        - name: MYSQL_DB
           valueFrom:
             secretKeyRef:
-              name: myevents-secret
-              key: database_user
-        - name: DATABASE_PASSWORD
+              name: nfe-nofity-secret
+              key: MYSQL_DB
+        - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: myevents-secret
-              key: database_password
+              name: nfe-nofity-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASS
+          valueFrom:
+            secretKeyRef:
+              name: nfe-nofity-secret
+              key: MYSQL_PASS
+        - name: MSSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: nfe-nofity-secret
+              key: MSSQL_HOST
+        - name: MSSQL_DB
+          valueFrom:
+            secretKeyRef:
+              name: nfe-nofity-secret
+              key: MSSQL_DB
+        - name: MSSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: nfe-nofity-secret
+              key: MSSQL_USER
+        - name: MSSQL_PASS
+          valueFrom:
+            secretKeyRef:
+              name: nfe-nofity-secret
+              key: MSSQL_PASS
 

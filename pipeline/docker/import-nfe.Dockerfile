@@ -1,0 +1,17 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+ENV MYSQL_HOST=${MYSQL_HOST}
+ENV MYSQL_DB=${MYSQL_DB}
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_PASS=${MYSQL_PASS}
+ENV MSSQL_HOST=${MSSQL_HOST}
+ENV MSSQL_DB=${MSSQL_DB}
+ENV MSSQL_USER=${MSSQL_USER}
+ENV MSSQL_PASS=${MSSQL_PASS}
+
+COPY ./app/import-nfe/ /app/
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+ENTRYPOINT ["python", "import-nfe.py"]

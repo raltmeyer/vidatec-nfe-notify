@@ -1,4 +1,4 @@
-# Pipeline ADO para deploy de aplicação MyEvents em ambiente de sandbox
+# Pipeline ADO para deploy de aplicaï¿½ï¿½o MyEvents em ambiente de sandbox
 
 trigger:
 - sandbox
@@ -98,6 +98,7 @@ stages:
         echo "Building Docker image..."
         echo docker buildx build --platform ${image_plataform} -t ${image_name}:${image_version} pipeline/docker
         docker buildx build --platform ${image_plataform} -t ${image_name}:${image_version} pipeline/docker
+        #docker buildx build -t vidatec_nfe_notify_import -f ./pipeline/docker/import-nfe.Dockerfile .
       displayName: 'Build Docker Image'
       env:
         DOCKER_BUILDKIT: 1

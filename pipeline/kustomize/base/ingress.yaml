@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: myevents-ingress
+  name: nfe-nofity-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: myevents.sandbox.altmeyer.local
+  - host: nfe-nofity.sandbox.altmeyer.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: myevents
+            name: nfe-nofity
             port:
-              number: 8080
+              number: 6236

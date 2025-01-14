@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myevents
+  name: nfe-nofity-sandbox
 spec:
   replicas: 1
   template:
     spec:
       containers:
-      - name: myevents
+      - name: nfe-nofity-sandbox
         resources:
           limits:
             cpu: "200m" 
-            memory: "256Mi" 
+            memory: "384Mi" 
           requests:
             cpu: "100m" 
             memory: "128Mi"

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: myevents
+  name: nfe-nofity
 spec:
   selector:
     app: web
   ports:
   - name: http
-    port: 8080
+    port: 6236

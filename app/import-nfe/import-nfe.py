@@ -10,14 +10,14 @@ from mysql.connector import errorcode
 import csv
 #https://python-tds.readthedocs.io/en/latest/
 
-mysql_host = os.getenv('mysql_host')
-mysql_db   = os.getenv('mysql_db')
-mysql_user = os.getenv('mysql_user')
-mysql_pass = os.getenv('mysql_pass')
-mssql_host = os.getenv('mssql_host')
-mssql_db   = os.getenv('mssql_db')
-mssql_user = os.getenv('mssql_user')
-mssql_pass = os.getenv('mssql_pass')
+mysql_host = os.getenv('MYSQL_HOST')
+mysql_db   = os.getenv('MYSQL_DB')
+mysql_user = os.getenv('MYSQL_USER')
+mysql_pass = os.getenv('MYSQL_PASS')
+mssql_host = os.getenv('MSSQL_HOST')
+mssql_db   = os.getenv('MSSQL_DB')
+mssql_user = os.getenv('MSSQL_USER')
+mssql_pass = os.getenv('MSSQL_PASS')
 
 # MySQL tables definition
 TABLES = {}
@@ -123,7 +123,10 @@ with pytds.connect(mssql_host,
         INSERT INTO boletos (codcli, numnfv, numdfs, vlrabe, vlrori, vlrbco, vctori, datemi, titban, RPSIDE)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     for row in tudo:
-        mysql_cursor.execute(insert_query, row)
+        try:
+            mysql_cursor.execute(insert_query, row)
+        except:
+            print ("Error inserting row: ", row)
     mysql_conn.commit()
     print("Data inserted into MySQL table 'boletos'")
 
@@ -146,7 +149,10 @@ with pytds.connect(mssql_host,
         row = list(row)
         if row[5] is None:
             row[5] = ''
-        mysql_cursor.execute(insert_query, row)
+        try:
+            mysql_cursor.execute(insert_query, row)
+        except:
+            print ("Error inserting row: ", row)
     mysql_conn.commit()
     print("Data inserted into MySQL table 'clientes'")
 
@@ -172,7 +178,10 @@ with pytds.connect(mssql_host,
                 "iemercurio.com.br" in clean_email or
                 len(clean_email) < 5):
                 continue
-            mysql_cursor.execute(insert_query, (cliid, clean_email))
+            try:
+                mysql_cursor.execute(insert_query, (cliid, clean_email))
+            except:
+                print ("Error inserting row: ", cliid)
     mysql_conn.commit()
     print("Data inserted into MySQL table 'clientes_emails'")
 
