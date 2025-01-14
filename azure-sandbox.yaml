@@ -1,8 +1,8 @@
 # Rogerio Altmeyer
 # ADO Pipeline to build and deploy to k8s
 
-trigger:
-- sandbox
+#trigger:
+#- sandbox
 
 pool:
   name: 'Default'
