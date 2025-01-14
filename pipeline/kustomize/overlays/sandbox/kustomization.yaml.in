@@ -6,7 +6,7 @@ kind: Kustomization
 resources:
 - ../../base
 
-namespace: nfe-nofity-sandbox
+namespace: vidatec-sandbox-nfe-nofity
 nameSuffix: -sandbox
 
 images:
