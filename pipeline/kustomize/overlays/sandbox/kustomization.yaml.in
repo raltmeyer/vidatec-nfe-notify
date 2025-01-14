@@ -26,11 +26,11 @@ secretGenerator:
   - name: nfe-nofity-secret
     literals:
       - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_DB  =${MYSQL_DB}
+      - MYSQL_DB=${MYSQL_DB}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASS=${MYSQL_PASS}
       - MSSQL_HOST=${MSSQL_HOST}
-      - MSSQL_DB  =${MSSQL_DB}
+      - MSSQL_DB=${MSSQL_DB}
       - MSSQL_USER=${MSSQL_USER}
       - MSSQL_PASS=${MSSQL_PASS}
     type: Opaque
