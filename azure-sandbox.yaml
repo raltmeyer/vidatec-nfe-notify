@@ -69,14 +69,8 @@ stages:
 
 - stage: Docker_Build
   jobs:
-  - job: Docker_Build
+  - job: Build_import_nfe
     steps:
-    - download: current
-      artifact: myevents-jar
-    - script: |
-        echo "Copying myevents.jar to pipeline/docker folder..."
-        cp $(Pipeline.Workspace)/myevents-jar/MyEvents.jar pipeline/docker/MyEvents.jar
-      displayName: 'Copy MyEvents.jar'
     - script: |
         echo "Building Docker image..."
         docker buildx build --platform ${image_plataform} -t vidatec_nfe_notify_import:${image_version} -f ./pipeline/docker/import-nfe.Dockerfile .
