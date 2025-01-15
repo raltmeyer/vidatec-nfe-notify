@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: nfe-nofity-cronjob
 spec:
-  schedule: "0 0 * * *" 
+  schedule: "0 20 * * *" 
   jobTemplate:
     spec:
       template:

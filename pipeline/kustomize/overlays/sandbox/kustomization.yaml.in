@@ -5,8 +5,6 @@ kind: Kustomization
 
 resources:
 - ../../base
-- cronjob_import_nfe.yaml
-- cronjob_daily_management_report.yaml
 
 namespace: vidatec-sandbox-nfe-nofity
 nameSuffix: -sandbox
