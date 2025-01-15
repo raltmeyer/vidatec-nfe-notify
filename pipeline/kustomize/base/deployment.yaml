@@ -38,6 +38,7 @@ spec:
             secretKeyRef:
               name: nfe-nofity-secret
               key: MYSQL_PASS
+
         - name: MSSQL_HOST
           valueFrom:
             secretKeyRef:
@@ -92,24 +93,17 @@ spec:
             secretKeyRef:
               name: nfe-nofity-secret
               key: MYSQL_PASS
-        - name: MSSQL_HOST
+
+        - name: SENDGRID_API_KEY
           valueFrom:
             secretKeyRef:
               name: nfe-nofity-secret
-              key: MSSQL_HOST
-        - name: MSSQL_DB
+              key: SENDGRID_API_KEY
+        - name: SENDGRID_FROM_EMAIL
           valueFrom:
             secretKeyRef:
               name: nfe-nofity-secret
-              key: MSSQL_DB
-        - name: MSSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: nfe-nofity-secret
-              key: MSSQL_USER
-        - name: MSSQL_PASS
-          valueFrom:
-            secretKeyRef:
-              name: nfe-nofity-secret
-              key: MSSQL_PASS
+              key: SENDGRID_FROM_EMAIL
+
+
 

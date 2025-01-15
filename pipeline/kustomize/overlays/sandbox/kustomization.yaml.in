@@ -33,5 +33,7 @@ secretGenerator:
       - MSSQL_DB=${MSSQL_DB}
       - MSSQL_USER=${MSSQL_USER}
       - MSSQL_PASS=${MSSQL_PASS}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
     type: Opaque
 
