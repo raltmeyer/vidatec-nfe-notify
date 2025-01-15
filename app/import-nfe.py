@@ -3,12 +3,15 @@
 # Rogerio Altmeyer - 2025
 #################################
 
+import time
+import logging
 import os
 import pytds
 import mysql.connector
 from mysql.connector import errorcode
 import csv
-#https://python-tds.readthedocs.io/en/latest/
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 mysql_host = os.getenv('MYSQL_HOST')
 mysql_db   = os.getenv('MYSQL_DB')
@@ -76,18 +79,18 @@ mysql_cursor = mysql_conn.cursor()
 for table_name in TABLES:
     table_description = TABLES[table_name]
     try:
-        print("Creating table {}: ".format(table_name), end='')
+        logging.info("Creating table {}: ".format(table_name))
         mysql_cursor.execute(table_description)
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-            print("already exists.")
+            logging.info("already exists.")
         else:
-            print(err.msg)
+            logging.info(err.msg)
     else:
-        print("OK")
+        logging.info("OK")
 
 # clean-up tables
-print ("Cleaning up data for all tables...")
+logging.info ("Cleaning up data for all tables...")
 sql = 'delete from clientes'
 mysql_cursor.execute(sql)
 sql = 'delete from clientes_emails'
@@ -97,14 +100,14 @@ mysql_cursor.execute(sql)
 mysql_conn.commit()
 
 
-print ("Extract data from Sapiens DB")
+logging.info ("Extract data from Sapiens DB")
 with pytds.connect(mssql_host, 
                     mssql_db, 
                     mssql_user, 
                     mssql_pass) as mssql_conn:
 
     #Boletos
-    print ("Boletos ...")
+    logging.info ("Boletos ...")
     with mssql_conn.cursor() as mssql_cur:
         query = "select nf.codcli, nf.numnfv, nf.numdfs, nf.vlrabe, nf.vlrori, nf.vlrbco, \
                     nf.vctori, nf.datemi, nf.titban, bol.RPSIDE \
@@ -126,13 +129,13 @@ with pytds.connect(mssql_host,
         try:
             mysql_cursor.execute(insert_query, row)
         except:
-            print ("Error inserting row: ", row)
+            logging.info ("Error inserting row: ", row)
     mysql_conn.commit()
-    print("Data inserted into MySQL table 'boletos'")
+    logging.info("Data inserted into MySQL table 'boletos'")
 
 
     #Clientes
-    print ("Clientes ...")
+    logging.info ("Clientes ...")
     with mssql_conn.cursor() as mssql_cur:
         query = "select codcli, CONVERT(bigint, CGCCPF) as cgccpf, \
                   nomcli, apecli, usu_emanfe, USU_SenCli \
@@ -152,13 +155,13 @@ with pytds.connect(mssql_host,
         try:
             mysql_cursor.execute(insert_query, row)
         except:
-            print ("Error inserting row: ", row)
+            logging.info ("Error inserting row: ", row)
     mysql_conn.commit()
-    print("Data inserted into MySQL table 'clientes'")
+    logging.info("Data inserted into MySQL table 'clientes'")
 
 
     #Clientes emails
-    print ("Cliente emails ...")
+    logging.info ("Cliente emails ...")
     with mssql_conn.cursor() as mssql_cur:
         query = "select codcli, usu_emanfe \
                 from E085Cli \
@@ -181,11 +184,11 @@ with pytds.connect(mssql_host,
             try:
                 mysql_cursor.execute(insert_query, (cliid, clean_email))
             except:
-                print ("Error inserting row: ", cliid)
+                logging.info ("Error inserting row: ", cliid)
     mysql_conn.commit()
-    print("Data inserted into MySQL table 'clientes_emails'")
+    logging.info("Data inserted into MySQL table 'clientes_emails'")
 
 mysql_cursor.close()
 mysql_conn.close()
 mssql_conn.close()
-print ("Database import finished")
+logging.info ("Database import finished")

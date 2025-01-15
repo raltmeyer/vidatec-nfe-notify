@@ -73,8 +73,8 @@ stages:
     steps:
     - script: |
         echo "Building Docker image..."
-        docker buildx build --platform ${image_plataform} -t vidatec_nfe_notify_import:${image_version} -f ./pipeline/docker/import-nfe.Dockerfile .
-        #docker buildx build --platform ${image_plataform} -t vidatec_nfe_notify_import -f ./pipeline/docker/import-nfe.Dockerfile .
+        docker buildx build --platform ${image_plataform} -t vidatec_nfe_notify_import:${image_version} -f ./pipeline/docker/Dockerfile .
+        #docker buildx build --platform ${image_plataform} -t vidatec_nfe_notify_import -f ./pipeline/docker/Dockerfile .
       displayName: 'Build Docker Image'
       env:
         DOCKER_BUILDKIT: 1

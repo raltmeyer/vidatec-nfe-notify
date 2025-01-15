@@ -18,17 +18,18 @@ export MSSQL_USER=sa
 
 ## Running locally using venv
 ```
-cd app/import-nfe
+cd app
 python3 -m venv venv
 source ./venv/bin/activate
 pip3 install -r requirements.txt
 ./venv/bin/python import-nfe.py
+./venv/bin/python entrypoint.py
 ```
 
 
 ## Running Locally using docker
 ```
-docker  buildx build --platform  linux/amd64 -t vidatec_nfe_notify_import -f ./pipeline/docker/import-nfe.Dockerfile .
+docker  buildx build --platform  linux/amd64 -t vidatec_nfe_notify_import -f ./pipeline/docker/Dockerfile .
 
 docker run -it --rm \
     -e MYSQL_HOST=$MYSQL_HOST \
@@ -64,3 +65,13 @@ kubectx <sandbox>
 cd pipeline/kustomize
 kubectl apply -k overlays/sandbox
 ```
+
+
+## SQL library to connect
+
+https://python-tds.readthedocs.io/en/latest/
+
+
+
+
+

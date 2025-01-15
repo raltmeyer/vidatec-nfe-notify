@@ -11,6 +11,7 @@ spec:
           containers:
           - name: vidatec-sandbox-nfe-nofity
             image: vidatec_nfe_notify_import
+            command: ["python", "import-nfe.py"]
             resources:
               limits:
                 cpu: "200m"

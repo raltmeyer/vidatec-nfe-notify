@@ -11,7 +11,8 @@ ENV MSSQL_DB=${MSSQL_DB}
 ENV MSSQL_USER=${MSSQL_USER}
 ENV MSSQL_PASS=${MSSQL_PASS}
 
-COPY ./app/import-nfe/ /app/
+COPY ./app/ /app/
+
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-ENTRYPOINT ["python", "import-nfe.py"]
+ENTRYPOINT ["python", "entrypoint.py"]
