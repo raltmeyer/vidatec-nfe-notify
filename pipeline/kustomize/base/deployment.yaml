@@ -59,7 +59,7 @@ spec:
               name: nfe-nofity-secret
               key: MSSQL_PASS
       containers:
-      - name: mainContainer
+      - name: main-container
         image: vidatec_nfe_notify_import
         imagePullPolicy: Always
         resources:
