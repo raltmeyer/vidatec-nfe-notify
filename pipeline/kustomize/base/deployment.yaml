@@ -13,9 +13,10 @@ spec:
         app: web
     spec:
       initContainers:
-      - name: init-task
+      - name: 00-import-nfe
         image: vidatec_nfe_notify_import
         command: ["python", "import-nfe.py"]
+        imagePullPolicy: Always
         env:
         - name: MYSQL_HOST
           valueFrom:
@@ -58,7 +59,7 @@ spec:
               name: nfe-nofity-secret
               key: MSSQL_PASS
       containers:
-      - name: vidatec-sandbox-nfe-nofity
+      - name: mainContainer
         image: vidatec_nfe_notify_import
         imagePullPolicy: Always
         resources:
