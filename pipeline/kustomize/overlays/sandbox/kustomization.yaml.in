@@ -5,6 +5,8 @@ kind: Kustomization
 
 resources:
 - ../../base
+- cronjob_import_nfe.yaml
+- cronjob_daily_management_report.yaml
 
 namespace: vidatec-sandbox-nfe-nofity
 nameSuffix: -sandbox
@@ -19,8 +21,8 @@ labels:
   pairs:
     app: nfe-nofity
 
-#patches:
-#- path: deployment.yaml
+patches:
+- path: deployment.yaml
 
 secretGenerator:
   - name: nfe-nofity-secret

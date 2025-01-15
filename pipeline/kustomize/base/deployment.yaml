@@ -15,7 +15,7 @@ spec:
       initContainers:
       - name: 00-import-nfe
         image: vidatec_nfe_notify_import
-        command: ["python", "import-nfe.py"]
+        command: ["python", "importNFe.py"]
         imagePullPolicy: Always
         env:
         - name: MYSQL_HOST
