@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: nfe-nofity-cronjob
+  name: daily-management-report-cronjob
 spec:
   schedule: "30 20 * * *" 
   jobTemplate:
