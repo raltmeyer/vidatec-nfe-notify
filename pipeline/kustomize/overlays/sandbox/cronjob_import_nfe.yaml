@@ -11,7 +11,7 @@ spec:
           containers:
           - name: vidatec-import-nfe
             image: vidatec_nfe_notify_import
-            imagePullPolicy: ifNotPresent
+            imagePullPolicy: IfNotPresent
             command: ["python", "importNFe.py"]
             resources:
               limits:

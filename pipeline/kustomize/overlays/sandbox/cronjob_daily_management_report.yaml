@@ -11,7 +11,7 @@ spec:
           containers:
           - name: vidatec-daily-management-report
             image: vidatec_nfe_notify_import
-            imagePullPolicy: ifNotPresent
+            imagePullPolicy: IfNotPresent
             command: ["python", "dailyManagementReport.py"]
             resources:
               limits:
