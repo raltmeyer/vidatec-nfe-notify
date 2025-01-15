@@ -62,7 +62,7 @@ html_report = f"""
 """
 
 logging.info("Sending email report...")
-#send_email(to_email, subject, html_report)
+send_email(to_email, subject, html_report)
 
 logging.info("Daily Management Report has finished.")
 db.disconnect()
