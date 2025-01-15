@@ -1,17 +1,18 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: daily-management-report-cronjob
+  name: nfe-nofity-cronjob
 spec:
-  schedule: "30 20 * * *" 
+  schedule: "0 20 * * *" 
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: vidatec-daily-management-report
+          - name: vidatec-import-nfe
             image: vidatec_nfe_notify_import
-            command: ["python", "dailyManagementReport.py"]
+            imagePullPolicy: ifNotPresent
+            command: ["python", "importNFe.py"]
             resources:
               limits:
                 cpu: "200m"
@@ -40,14 +41,24 @@ spec:
                 secretKeyRef:
                   name: nfe-nofity-secret
                   key: MYSQL_PASS
-            - name: SENDGRID_API_KEY
+            - name: MSSQL_HOST
               valueFrom:
                 secretKeyRef:
                   name: nfe-nofity-secret
-                  key: SENDGRID_API_KEY
-            - name: SENDGRID_FROM_EMAIL
+                  key: MSSQL_HOST
+            - name: MSSQL_DB
               valueFrom:
                 secretKeyRef:
                   name: nfe-nofity-secret
-                  key: SENDGRID_FROM_EMAIL
+                  key: MSSQL_DB
+            - name: MSSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nfe-nofity-secret
+                  key: MSSQL_USER
+            - name: MSSQL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: nfe-nofity-secret
+                  key: MSSQL_PASS
           restartPolicy: OnFailure

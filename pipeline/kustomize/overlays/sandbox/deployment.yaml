@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-      - name: vidatec-sandbox-nfe-nofity
+      - name: main-container
         resources:
           limits:
             cpu: "200m" 
