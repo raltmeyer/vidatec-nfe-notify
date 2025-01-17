@@ -68,8 +68,9 @@ html_report = f"""
     <br><strong>Total NFe ativas:</strong> {total_nfe_count - cancelled_nfe_count}</br>
 
     <hr>
-    <p><strong>NFe não pagos esse mês:</strong> {unpaid_nfe_count}</p>
-    <br><strong>NFe já pagos esse mês:</strong> {paid_nfe_count}</br>
+    <p><h2>Status de pagamentos:</H2></p>
+    <br><strong>NFe não pagas:</strong> {unpaid_nfe_count}</br>
+    <br><strong>NFe já pagas:</strong> {paid_nfe_count}</br>
     <hr>
 </body>
 </html>
