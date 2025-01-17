@@ -38,11 +38,39 @@ class DatabaseQueries:
         cursor.close()
         return result
 
-    def count_unpaid_boletos_this_month(self):
+    def count_total_nfes_this_month(self):
         query = """
         SELECT COUNT(*) AS count
         FROM boletos
-        WHERE vlrbco > 0 
+        WHERE sitnel = 1 
+          AND MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
+          AND YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def count_canceled_nfes_this_month(self):
+        query = """
+        SELECT COUNT(*) AS count
+        FROM boletos
+        WHERE sitnel <> 1
+          AND MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
+          AND YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def count_unpaid_nfes_this_month(self):
+        query = """
+        SELECT COUNT(*) AS count
+        FROM boletos
+        WHERE sitnel = 1 
           AND vlrabe > 0
           AND MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
           AND YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())
@@ -53,11 +81,11 @@ class DatabaseQueries:
         cursor.close()
         return result['count']
 
-    def count_paid_boletos_this_month(self):
+    def count_paid_nfes_this_month(self):
         query = """
         SELECT COUNT(*) AS count
         FROM boletos
-        WHERE vlrbco > 0 
+        WHERE sitnel = 1  
           AND vlrabe = 0
           AND MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
           AND YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())

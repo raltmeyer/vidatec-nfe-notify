@@ -37,6 +37,7 @@ TABLES['boletos'] = (
     "  `vctori` varchar(30) NOT NULL,"
     "  `datemi` varchar(30) NOT NULL,"
     "  `titban` varchar(20) NOT NULL,"
+    "  `sitnel` varchar(20) NOT NULL,"
     "  `rpside` varchar(100) NOT NULL,"
     "  PRIMARY KEY (`id`)"
     ") ENGINE=InnoDB")
@@ -110,7 +111,7 @@ with pytds.connect(mssql_host,
     logging.info ("Boletos ...")
     with mssql_conn.cursor() as mssql_cur:
         query = "select nf.codcli, nf.numnfv, nf.numdfs, nf.vlrabe, nf.vlrori, nf.vlrbco, \
-                    nf.vctori, nf.datemi, nf.titban, bol.RPSIDE \
+                    nf.vctori, nf.datemi, nf.titban, bol.RPSIDE, bol.SITNEL \
                 from Sapiens_Prod..E085Cli as cli \
                 left join Sapiens_Prod..E301TCR as nf on cli.codcli = nf.codcli \
                     and nf.codemp = 81 \
@@ -123,8 +124,8 @@ with pytds.connect(mssql_host,
         tudo = mssql_cur.fetchall()
         
     insert_query = """
-        INSERT INTO boletos (codcli, numnfv, numdfs, vlrabe, vlrori, vlrbco, vctori, datemi, titban, RPSIDE)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        INSERT INTO boletos (codcli, numnfv, numdfs, vlrabe, vlrori, vlrbco, vctori, datemi, titban, RPSIDE, sitnel)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
     for row in tudo:
 
@@ -136,7 +137,7 @@ with pytds.connect(mssql_host,
             mysql_cursor.execute(insert_query, row)
         except:
             logging.info ("Error inserting row: ", row)
-            
+
     mysql_conn.commit()
     logging.info("Data inserted into MySQL table 'boletos'")
 

@@ -39,14 +39,21 @@ db = DatabaseQueries(host=host, database=database, user=user, password=password)
 db.connect()
 
 # get info
-unpaid_boletos_count = db.count_unpaid_boletos_this_month()
-logging.info(f"Unpaid Boletos This Month: {unpaid_boletos_count}")
 
-paid_boletos_count = db.count_paid_boletos_this_month()
-logging.info(f"Paid Boletos This Month: {paid_boletos_count}")
+total_nfe_count = db.count_total_nfes_this_month()
+logging.info(f"Total NFe This Month: {total_nfe_count}")
+
+cancelled_nfe_count = db.count_canceled_nfes_this_month()
+logging.info(f"Total NFe This Month: {cancelled_nfe_count}")
+
+unpaid_nfe_count = db.count_unpaid_nfes_this_month()
+logging.info(f"Unpaid NFe This Month: {unpaid_nfe_count}")
+
+paid_nfe_count = db.count_paid_nfes_this_month()
+logging.info(f"Paid NFe This Month: {paid_nfe_count}")
 
 # email details
-to_email = "rogerio@altmeyer.com.br"  # Replace with the recipient's email address
+to_email = "rogerio@altmeyer.com.br; joaomartins@vidatecambiental.com.br; faturamento@vidatecambiental.com.br; financeiro@vidatecambiental"  # Replace with the recipient's email address
 subject = "vidatec-nfe-notifica: Relatório Diário de Gerenciamento"
 html_report = f"""
 <html>
@@ -56,15 +63,22 @@ html_report = f"""
 <body>
     <h1>Relatório Gerencial Diário</h1>
     <hr>
-    <p><strong>Boletos não pagos esse mês:</strong> {unpaid_boletos_count}</p>
-    <br><strong>Boletos já pagos esse mês:</strong> {paid_boletos_count}</br>
+    <p><h2>Totais de cobranças geradas no mês corrente:</H2></p>
+    <p><strong>+ NFe geradas com cobrança:</strong> {total_nfe_count}</p>
+    <br><strong>- NFe canceladas:</strong> {cancelled_nfe_count}</br>
+    <br><strong>- Total NFe ativas:</strong> {total_nfe_count - cancelled_nfe_count}</br>
+
+    <hr>
+    <p><strong>NFe não pagos esse mês:</strong> {unpaid_nfe_count}</p>
+    <br><strong>NFe já pagos esse mês:</strong> {paid_nfe_count}</br>
     <hr>
 </body>
 </html>
 """
 
 logging.info("Sending email report...")
-send_email(to_email, subject, html_report)
+logging.info(html_report)
+#send_email(to_email, subject, html_report)
 
 logging.info("Daily Management Report has finished.")
 db.disconnect()
