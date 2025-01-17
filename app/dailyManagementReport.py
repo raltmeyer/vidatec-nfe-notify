@@ -53,8 +53,8 @@ paid_nfe_count = db.count_paid_nfes_this_month()
 logging.info(f"Paid NFe This Month: {paid_nfe_count}")
 
 # email details
-to_email = "rogerio@altmeyer.com.br; joaomartins@vidatecambiental.com.br; faturamento@vidatecambiental.com.br; financeiro@vidatecambiental"  # Replace with the recipient's email address
-subject = "vidatec-nfe-notifica: Relatório Diário de Gerenciamento"
+to_email = "rogerio@altmeyer.com.br, joaomartins@vidatecambiental.com.br, faturamento@vidatecambiental.com.br, financeiro@vidatecambiental"  # Replace with the recipient's email address
+subject = "vidatec-nfe-notifica: Relatório Gerencial Diário"
 html_report = f"""
 <html>
 <head>
