@@ -116,7 +116,7 @@ with pytds.connect(mssql_host,
                     and nf.codemp = 81 \
                 left join SDE_Prod..N140NFS as bol on bol.numnfv = nf.numnfv \
                     and cli.cgccpf = bol.cgccpf \
-                where nf.datemi >= '2025-01-01' \
+                where nf.datemi >= '2024-10-01' \
                 and cli.usu_gerres = 'S' \
                 order by nf.numdfs desc"
         mssql_cur.execute(query)
