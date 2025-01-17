@@ -1,3 +1,8 @@
+#################################
+# Vida Tecnologia Ambiental
+# Rogerio Altmeyer - 2025
+#################################
+
 import time
 import logging
 

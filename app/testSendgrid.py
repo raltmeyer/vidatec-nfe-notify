@@ -1,23 +1,17 @@
+#################################
+# Vida Tecnologia Ambiental
+# Rogerio Altmeyer - 2025
+#################################
+
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+import logging
+from classSendGridEmail import SendGridEmail
+from classLoggerConfig import LoggerConfig
 
-def send_email(to_email, subject, content):
-    message = Mail(
-        from_email=os.getenv('SENDGRID_FROM_EMAIL'),
-        to_emails=to_email,
-        subject=subject,
-        html_content=content
-    )
-    try:
-        sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
-        response = sg.send(message)
-        print(f"Email sent to {to_email} with status code {response.status_code}")
-    except Exception as e:
-        print(f"Error sending email: {e}")
+LoggerConfig.configure_logging()
 
-if __name__ == "__main__":
-    to_email = "rogerio@altmeyer.com.br"  # Replace with the recipient's email address
-    subject = "vidatec-nfe-notify: Test Email via SendGrid"
-    content = "<strong>This is a vidatec-nfe-notify test email sent using SendGrid.</strong>"
-    send_email(to_email, subject, content)
+to_email = "rogerio@altmeyer.com.br"  
+subject = "vidatec-nfe-notify: Test Email via SendGrid"
+content = "<strong>This is a vidatec-nfe-notify test email sent using SendGrid.</strong>"
+email_sender = SendGridEmail()
+email_sender.send_email("rogerio@altmeyer.com.br", subject, content)

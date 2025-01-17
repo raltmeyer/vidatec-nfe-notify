@@ -1,3 +1,10 @@
+#################################
+# Vida Tecnologia Ambiental
+# Rogerio Altmeyer - 2025
+#################################
+
+import os
+import logging
 import mysql.connector
 from mysql.connector import Error
 import logging
@@ -5,11 +12,11 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class DatabaseQueries:
-    def __init__(self, host, database, user, password):
-        self.host = host
-        self.database = database
-        self.user = user
-        self.password = password
+    def __init__(self):
+        self.host = os.getenv('MYSQL_HOST')
+        self.database = os.getenv('MYSQL_DB')
+        self.user = os.getenv('MYSQL_USER')
+        self.password = os.getenv('MYSQL_PASS')
         self.connection = None
 
     def connect(self):
@@ -29,6 +36,19 @@ class DatabaseQueries:
         if self.connection.is_connected():
             self.connection.close()
             logging.info("Disconnected from MySQL database")
+            
+    def execute_query(self, query, params=None):
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query, params)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def execute_update(self, query, params=None):
+        cursor = self.connection.cursor()
+        cursor.execute(query, params)
+        self.connection.commit()
+        cursor.close()
 
     def get_client_emails(self, codcli):
         query = "SELECT * FROM clientes_emails WHERE codcli = %s"

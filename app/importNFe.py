@@ -9,9 +9,9 @@ import os
 import pytds
 import mysql.connector
 from mysql.connector import errorcode
-import csv
+from classLoggerConfig import LoggerConfig
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+LoggerConfig.configure_logging()
 
 mysql_host = os.getenv('MYSQL_HOST')
 mysql_db   = os.getenv('MYSQL_DB')
