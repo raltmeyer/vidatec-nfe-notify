@@ -51,12 +51,14 @@ subject = "vidatec-nfe-notifica: Relatório Diário de Gerenciamento"
 html_report = f"""
 <html>
 <head>
-    <title>Daily Management Report</title>
+    <title>Relatório Gerencial Diário</title>
 </head>
 <body>
-    <h1>Daily Management Report</h1>
+    <h1>Relatório Gerencial Diário</h1>
+    <hr>
     <p><strong>Boletos não pagos esse mês:</strong> {unpaid_boletos_count}</p>
-    <p><strong>Boletos já pagos esse mês:</strong> {paid_boletos_count}</p>
+    <br><strong>Boletos já pagos esse mês:</strong> {paid_boletos_count}</br>
+    <hr>
 </body>
 </html>
 """
