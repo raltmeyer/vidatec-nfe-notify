@@ -53,7 +53,6 @@ paid_nfe_count = db.count_paid_nfes_this_month()
 logging.info(f"Paid NFe This Month: {paid_nfe_count}")
 
 # email details
-to_email = "rogerio@altmeyer.com.br, joaomartins@vidatecambiental.com.br, faturamento@vidatecambiental.com.br, financeiro@vidatecambiental"  # Replace with the recipient's email address
 subject = "vidatec-nfe-notifica: Relatório Gerencial Diário"
 html_report = f"""
 <html>
@@ -63,10 +62,10 @@ html_report = f"""
 <body>
     <h1>Relatório Gerencial Diário</h1>
     <hr>
-    <p><h2>Totais de cobranças geradas no mês corrente:</H2></p>
-    <p><strong>+ NFe geradas com cobrança:</strong> {total_nfe_count}</p>
-    <br><strong>- NFe canceladas:</strong> {cancelled_nfe_count}</br>
-    <br><strong>- Total NFe ativas:</strong> {total_nfe_count - cancelled_nfe_count}</br>
+    <p><h2>Totais de cobranças (boletos/carteira) geradas no mês corrente:</H2></p>
+    <br><strong>NFe geradas com cobrança:</strong> {total_nfe_count}</br>
+    <br><strong>NFe canceladas:</strong> {cancelled_nfe_count}</br>
+    <br><strong>Total NFe ativas:</strong> {total_nfe_count - cancelled_nfe_count}</br>
 
     <hr>
     <p><strong>NFe não pagos esse mês:</strong> {unpaid_nfe_count}</p>
@@ -75,10 +74,12 @@ html_report = f"""
 </body>
 </html>
 """
+#logging.info(html_report)
 
 logging.info("Sending email report...")
-#logging.info(html_report)
-send_email(to_email, subject, html_report)
+send_email("rogerio@altmeyer.com.br", subject, html_report)
+send_email("joaomartins@vidatecambiental.com.br", subject, html_report)
+send_email("faturamento@vidatecambiental.com.br", subject, html_report)
 
 logging.info("Daily Management Report has finished.")
 db.disconnect()
