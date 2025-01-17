@@ -125,11 +125,18 @@ with pytds.connect(mssql_host,
     insert_query = """
         INSERT INTO boletos (codcli, numnfv, numdfs, vlrabe, vlrori, vlrbco, vctori, datemi, titban, RPSIDE)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+
     for row in tudo:
+
+        row = list(row)
+        if not row[9]:
+          row[9] = ''
+
         try:
             mysql_cursor.execute(insert_query, row)
         except:
             logging.info ("Error inserting row: ", row)
+            
     mysql_conn.commit()
     logging.info("Data inserted into MySQL table 'boletos'")
 
