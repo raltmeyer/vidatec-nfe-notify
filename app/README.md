@@ -14,6 +14,9 @@ export MSSQL_HOST=mssql.altmeyer.local
 export MSSQL_DB=Sapiens_Prod
 export MSSQL_USER=sa
 #export MSSQL_PASS=<PASS>
+
+export SENDGRID_FROM_EMAIL=nfeenvio@vidatecambiental.com.br
+#export SENDGRID_API_KEY=<KEY>
 ```
 
 ## Running locally using venv
@@ -40,6 +43,8 @@ docker run -it --rm \
     -e MSSQL_DB=$MSSQL_DB \
     -e MSSQL_USER=$MSSQL_USER \
     -e MSSQL_PASS=$MSSQL_PASS \
+    -e SENDGRID_FROM_EMAIL=$SENDGRID_FROM_EMAIL \
+    -e SENDGRID_API_KEY=$SENDGRID_API_KEY \
     vidatec_nfe_notify_import
 ```
 
