@@ -129,7 +129,7 @@ stages:
         MSSQL_PASS: $(MSSQL_PASS)
         SENDGRID_API_KEY: $(SENDGRID_API_KEY)
         SENDGRID_FROM_EMAIL: $(SENDGRID_FROM_EMAIL)
-        environment: $(environment)
+        ENVIRONMENT: $(environment)
 
 - stage: CleanUp
   dependsOn: K8s_Deployment

@@ -12,8 +12,13 @@ class SendGridEmail:
     def __init__(self):
         self.from_email = os.getenv('SENDGRID_FROM_EMAIL')
         self.api_key = os.getenv('SENDGRID_API_KEY')
+        self.environment = os.getenv('ENVIRONMENT')
 
     def send_email(self, to_email, subject, content):
+
+        #if self.environment != "production":
+        #    logging.info(f"Email content: {content}")
+        #    return
         message = Mail(
             from_email=self.from_email,
             to_emails=to_email,
