@@ -109,11 +109,11 @@ stages:
       displayName: 'Download kubeconfg Files'
     - script: |
         echo "Apply variables to Kustomize ..."
-        envsubst < overlays/${environment}/kustomization.yaml.in > overlays/${environment}/kustomization.yaml
+        envsubst < overlays/${ENVIRONMENT}/kustomization.yaml.in > overlays/${ENVIRONMENT}/kustomization.yaml
         echo "Kustomize init ..."
-        kustomize build overlays/$(environment)
+        kustomize build overlays/$(ENVIRONMENT)
         echo "Kustomize apply ..."
-        kubectl apply -k overlays/$(environment)
+        kubectl apply -k overlays/$(ENVIRONMENT)
       displayName: 'Kustomize Apply'
       workingDirectory: 'pipeline/kustomize'
       env:
