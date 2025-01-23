@@ -3,6 +3,7 @@
 # Rogerio Altmeyer - 2025
 #################################
 
+import os
 import time
 import logging
 
