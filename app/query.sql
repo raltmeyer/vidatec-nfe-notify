@@ -63,10 +63,33 @@ where vlrbco > 0
   and MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
   and YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())
 
--- Todos boletos emitidos esse mes e nao pagos
+-- Todos boletos emitidos esse mes e pagos
 select count(*) 
 from boletos
 where vlrbco > 0 
   and vlrabe = 0
   and MONTH(STR_TO_DATE(datemi, '%Y-%m-%d')) = MONTH(CURRENT_DATE())
   and YEAR(STR_TO_DATE(datemi, '%Y-%m-%d')) = YEAR(CURRENT_DATE())
+
+-- Boletos nao pagos vencendo em 3 dias
+SELECT *
+FROM boletos
+WHERE vlrbco > 0 
+  and vlrabe > 0
+  and STR_TO_DATE(vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL 3 DAY);
+
+-- Boletos vencendo hoje
+SELECT *
+FROM boletos
+WHERE vlrbco > 0 
+  and vlrabe > 0
+  and STR_TO_DATE(vctori, '%Y-%m-%d') = CURRENT_DATE();
+
+
+-- Boletos vencidos a 5 dias atras
+SELECT *
+FROM boletos
+WHERE vlrbco > 0 
+  and vlrabe > 0
+  and STR_TO_DATE(vctori, '%Y-%m-%d') = DATE_SUB(CURRENT_DATE(), INTERVAL -5 DAY);
+
