@@ -33,7 +33,7 @@ class BoletosTable:
         <table border="1">
             <tr>
                 <th>Cliente</th>
-                <th>Data Emi</th>
+                <th>Emitido</th>
                 <th>Vencimento</th>
                 <th>Valor</th>
             </tr>

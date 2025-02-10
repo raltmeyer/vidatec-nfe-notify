@@ -57,17 +57,16 @@ html_report = f"""
     <p><h2>Status de pagamentos:</H2></p>
     <br><strong>NFe não pagas:</strong> {unpaid_nfe_count}</br>
     <br><strong>NFe já pagas:</strong> {paid_nfe_count}</br>
-    <hr>
 
     <hr>
-    <br><strong>Total de email com vencimentos em 3 dias:</strong> {boletos_due_in_3_days}</br>
-    <br><strong>Total de email com vencimento hoje:</strong> {boletos_due_today}</br>
-    <br><strong>Total de email vencidos a 5 dias:</strong> {boletos_due_5_days_ago}</br>
-    <hr>
+    <p><h2>Total de emails a serem enviados hoje:</H2></p>
+    <br><strong>Email com vencimentos em 3 dias:</strong> {boletos_due_in_3_days}</br>
+    <br><strong>Email com vencimentos hoje:</strong> {boletos_due_today}</br>
+    <br><strong>Email com vencidos a 5 dias:</strong> {boletos_due_5_days_ago}</br>
 
     <hr>
-    <p><h2>Boletos vencendo em 3 dias:</H2></p>
-    {boletosTable.clientesVencimentoByAddDate(-5)}
+    <p><h2>Boletos nao pagos vencendo hoje:</H2></p>
+    {boletosTable.clientesVencimentoByAddDate(0)}
 
 </body>
 </html>
