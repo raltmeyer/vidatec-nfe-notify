@@ -33,7 +33,6 @@ logging.info(f"Total NFe This Month: {total_nfe_count}")
 logging.info(f"Total NFe This Month: {cancelled_nfe_count}")
 logging.info(f"Unpaid NFe This Month: {unpaid_nfe_count}")
 logging.info(f"Paid NFe This Month: {paid_nfe_count}")
-
 logging.info(f"Email com vencimentos em 3 dias: {boletos_due_in_3_days}")
 logging.info(f"Email com vencimento hoje: {boletos_due_today}")
 logging.info(f"Email ja vencidos a 5 dias: {boletos_due_5_days_ago}")
@@ -62,7 +61,7 @@ html_report = f"""
     <hr>
     <br><strong>Total de email com vencimentos em 3 dias:</strong> {boletos_due_in_3_days}</br>
     <br><strong>Total de email com vencimento hoje:</strong> {boletos_due_today}</br>
-    <br><strong>Total de email ja vencidos a 5 dias:</strong> {boletos_due_5_days_ago}</br>
+    <br><strong>Total de email vencidos a 5 dias:</strong> {boletos_due_5_days_ago}</br>
     <hr>
 
     <hr>
