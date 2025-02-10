@@ -130,3 +130,33 @@ class DatabaseQueries:
         cursor.close()
         return result
 
+
+    def count_boletos_by_date(self, add_days):
+        query = f"""
+        SELECT COUNT(*) AS count
+        FROM boletos as bol
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL {add_days} DAY);
+        """
+        print(query)
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def get_boletos_by_date(self, add_days):
+        query = f"""
+        SELECT *
+        FROM boletos as bol
+        left join clientes as cli on bol.codcli = cli.codcli
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL {add_days} DAY);
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
