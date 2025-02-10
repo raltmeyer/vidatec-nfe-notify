@@ -130,3 +130,93 @@ class DatabaseQueries:
         cursor.close()
         return result
 
+
+    def count_boletos_due_in_3_days(self):
+        query = """
+        SELECT COUNT(*) AS count
+        FROM boletos as bol
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL -3 DAY);
+        """
+        #  and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL 3 DAY);
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def get_boletos_due_in_3_days(self):
+        query = """
+        SELECT bol.codcli as codcli, bol.vlrori, bol.vctori, bol.datemi, cli.nomcli
+        FROM boletos as bol
+        left join clientes as cli on bol.codcli = cli.codcli
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL -3 DAY);
+        """
+        #  and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL 3 DAY);
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+
+    def count_boletos_due_today(self):
+        query = """
+        SELECT COUNT(*) AS count
+        FROM boletos as bol
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = CURRENT_DATE()
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def get_boletos_due_today(self):
+        query = """
+        SELECT *
+        FROM boletos as bol
+        left join clientes as cli on bol.codcli = cli.codcli
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = CURRENT_DATE()
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+    
+    def count_boletos_due_5_days_ago(self):
+        query = """
+        SELECT COUNT(*) AS count
+        FROM boletos as bol
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL -5 DAY);
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        cursor.close()
+        return result['count']
+
+    def get_boletos_due_5_days_ago(self):
+        query = """
+        SELECT *
+        FROM boletos as bol
+        left join clientes as cli on bol.codcli = cli.codcli
+        WHERE bol.vlrbco > 0 
+          and bol.vlrabe > 0
+          and STR_TO_DATE(bol.vctori, '%Y-%m-%d') = DATE_ADD(CURRENT_DATE(), INTERVAL -5 DAY);
+        """
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
