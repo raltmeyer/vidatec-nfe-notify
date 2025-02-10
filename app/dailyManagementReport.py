@@ -25,9 +25,10 @@ total_nfe_count = db.count_total_nfes_this_month()
 cancelled_nfe_count = db.count_canceled_nfes_this_month()
 unpaid_nfe_count = db.count_unpaid_nfes_this_month()
 paid_nfe_count = db.count_paid_nfes_this_month()
-boletos_due_in_3_days = db.count_boletos_due_in_3_days()
-boletos_due_today = db.count_boletos_due_today()
-boletos_due_5_days_ago = db.count_boletos_due_5_days_ago()
+boletos_due_in_3_days = db.count_boletos_by_date(-3)
+boletos_due_today = db.count_boletos_by_date(0)
+boletos_due_5_days_ago = db.count_boletos_by_date(-5)
+
 
 logging.info(f"Total NFe This Month: {total_nfe_count}")
 logging.info(f"Total NFe This Month: {cancelled_nfe_count}")
@@ -66,7 +67,7 @@ html_report = f"""
 
     <hr>
     <p><h2>Boletos vencendo em 3 dias:</H2></p>
-    {boletosTable.clientesVencendoEmTresDias()}
+    {boletosTable.clientesVencimentoByAddDate(-5)}
 
 </body>
 </html>

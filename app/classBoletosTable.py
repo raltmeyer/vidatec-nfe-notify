@@ -11,15 +11,15 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 class BoletosTable:
 
-    def clientesVencendoEmTresDias(self):
+    def clientesVencimentoByAddDate(self, add_date):
         db = DatabaseQueries()
         db.connect()
 
-        boletos_due_in_3_days = db.get_boletos_due_in_3_days()
+        boletos = db.get_boletos_by_date(add_date)
 
         # Generate HTML table for boletos due in 3 days
         boletos_table_rows = ""
-        for boleto in boletos_due_in_3_days:
+        for boleto in boletos:
             boletos_table_rows += f"""
             <tr>
                 <td>{boleto['codcli']} - {boleto['nomcli']}</td>
